@@ -295,6 +295,17 @@ function App() {
         const valueInput = formData
         const valueInputJSON = JSON.stringify(valueInput)
         alert(valueInputJSON)
+
+        setFormData ({
+            name:'',
+            email:'',
+            phone:'',
+            company:'',
+            service:'Develompment',
+            budget: '50000'
+        })
+
+        setPage(0)
     }
 
     React.useEffect(() => {
