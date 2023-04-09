@@ -86,7 +86,7 @@ function FormServices({selectedService, setSelectedService, formData, setFormDat
     const services = [
         {
             id: 0,
-            name: "Develompment",
+            name: "Development",
             img: "img/development.svg"
         },
         {
@@ -197,7 +197,7 @@ function FormSubmission() {
 
 function App() {
     const [page, setPage] = React.useState(0)
-    const [selectedService, setSelectedService] = React.useState('Develompment')
+    const [selectedService, setSelectedService] = React.useState('Development')
     const [selectedBudget, setSelectedBudget] = React.useState('$50.000 +')
 
     const FormTitles = ["Contact detail", "Our services", "What's your Project budget?", "Submit your quote request"]
@@ -207,7 +207,7 @@ function App() {
         email:'',
         phone:'',
         company:'',
-        service:'Develompment',
+        service:'Development',
         budget: '50000'
     })
 
@@ -301,7 +301,7 @@ function App() {
             email:'',
             phone:'',
             company:'',
-            service:'Develompment',
+            service:'Development',
             budget: '50000'
         })
 
