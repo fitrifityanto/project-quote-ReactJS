@@ -1,10 +1,10 @@
 const FormContact = ({
-    formData, setFormData, errorMsg, errorEmail, errorPhone, nameRef, emailRef, phoneRef, companyRef
+    formTitles, page, formData, setFormData, errorMsg, errorEmail, errorPhone, nameRef, emailRef, phoneRef, companyRef
 }) => {
     
     return (
         <div className="box-inside">
-            <h2>Contact detail</h2>
+            <h2>{formTitles[page]} </h2>
             <div className="description">Lorem, ipsum dolor sit amet consectetur adipisicing.  </div>
             <div className="box-form">
                 <div className="input-wrap">
@@ -35,7 +35,7 @@ const FormContact = ({
                         name="email"
                         value={formData.email}
                         ref={emailRef}
-                        onChange={ (event) => setFormData({...formData, email: event.target.value})}
+                        onChange={ (event) => setFormData({...formData, email: event.target.value}) }
                         placeholder="Email" 
                         className="input-field"
                         style={ errorEmail === 'Email is invalid' ? {border: '2px solid #962DFF'} : errorMsg === 'Email is required' ? {border: '2px solid #962DFF'} : {} } />
@@ -45,7 +45,7 @@ const FormContact = ({
                     {errorEmail === 'Email is invalid' && <div className={`${errorEmail === 'Email is invalid' ? 'warning-text' : ''}`} >{errorEmail}</div> }
                 </div>
                 <div className="input-wrap">
-                    <label className={` ${errorMsg === 'Phone number is required' ? 'warning-text' : ''} `}>Phone Number</label>
+                    <label className={` ${errorMsg === 'Phone number is required' ? 'warning-text' : errorPhone === 'Phone number is invalid' ? 'warning-text' : ''} `}>Phone Number</label>
                     <div className='input-wrapper'>
                     <input 
                         type="text" 
@@ -82,7 +82,9 @@ const FormContact = ({
     )
 }
 
-function FormServices({selectedService, setSelectedService, formData, setFormData}) {
+function FormServices({formTitles, page, formData, setFormData}) {
+    const [selectedService, setSelectedService] = React.useState('Development')
+
     const services = [
         {
             id: 0,
@@ -108,7 +110,7 @@ function FormServices({selectedService, setSelectedService, formData, setFormDat
 
     return (
         <div>
-            <h2>Our services</h2>
+            <h2>{formTitles[page]} </h2>
             <div className="description">Lorem, ipsum dolor sit amet consectetur adipisicing.  </div>
             <div className="box-form">
                 {
@@ -133,7 +135,9 @@ function FormServices({selectedService, setSelectedService, formData, setFormDat
         </div>
     )}
 
-function ProjectBudget({selectedBudget, setSelectedBudget, formData, setFormData}) {
+function ProjectBudget({formTitles, page, formData, setFormData}) {
+    const [selectedBudget, setSelectedBudget] = React.useState('$50.000 +')
+
     const budgets = [
         {
             id : 0,
@@ -155,7 +159,7 @@ function ProjectBudget({selectedBudget, setSelectedBudget, formData, setFormData
 
     return (
         <div>
-            <h2>What's your Project budget?</h2>
+            <h2>{formTitles[page]} </h2>
             <div className="description">Lorem, ipsum dolor sit amet consectetur adipisicing.  </div> 
             <div className="box-form">
                 {
@@ -183,12 +187,12 @@ function ProjectBudget({selectedBudget, setSelectedBudget, formData, setFormData
     )
 }
 
-function FormSubmission() {
+function FormSubmission({formTitles, page}) {
     return (
         <div className="container-submit text-center">
             <img src="img/logo-submit.svg" />
             <div>
-                <h2>Submit your quote request</h2>
+                <h2>{formTitles[page]}</h2>
                 <div className="description">Please review all the information you previously typed in the past steps, and if all is okay, submit your message to receive a project quote in 24 - 48 hours.</div>
             </div>
         </div>
@@ -197,10 +201,8 @@ function FormSubmission() {
 
 function App() {
     const [page, setPage] = React.useState(0)
-    const [selectedService, setSelectedService] = React.useState('Development')
-    const [selectedBudget, setSelectedBudget] = React.useState('$50.000 +')
 
-    const FormTitles = ["Contact detail", "Our services", "What's your Project budget?", "Submit your quote request"]
+    const formTitles = ["Contact detail", "Our services", "What's your Project budget?", "Submit your quote request"]
 
     const [formData, setFormData] = React.useState ({
         name:'',
@@ -274,14 +276,14 @@ function App() {
             if (!validateEmail(formData.email)) {
                 setErrorEmail('Email is invalid')
                 emailRef.current.focus()
-            } else if (!validatePhone(formData.phone)) {
+            } else if (validateEmail(formData.email) && (!validatePhone(formData.phone))) {
+                setErrorEmail('')
                 setErrorPhone('Phone number is invalid')
                 phoneRef.current.focus()
-            }
-            else { 
+            } else{ 
                 setErrorEmail('')
                 setErrorPhone('')
-                setPage((currentPage) => currentPage + 1)
+                setPage((currentPage) => currentPage + 1)  
             }
         }
     }
@@ -315,7 +317,9 @@ function App() {
     const FormDisplay = () => {
         if (page === 0) {
             return ( 
-            <FormContact 
+            <FormContact
+                formTitles={formTitles}
+                page={page}
                 formData={formData} 
                 setFormData={setFormData}
                 errorMsg={errorMsg}
@@ -326,23 +330,26 @@ function App() {
                 emailRef={emailRef}
                 phoneRef={phoneRef}
                 companyRef={companyRef}
-                validateEmail={validateEmail}
             /> )
         } else if (page === 1 ) {
-            return <FormServices 
-                    selectedService = {selectedService}
-                    setSelectedService={setSelectedService}
-                    formData={formData}
-                    setFormData={setFormData}
+            return <FormServices
+                        formTitles={formTitles}
+                        page={page} 
+                        formData={formData}
+                        setFormData={setFormData}
             />
         } else if (page === 2) {
             return <ProjectBudget 
-                    selectedBudget={selectedBudget}
-                    setSelectedBudget={setSelectedBudget}
-                    formData={formData}
-                    setFormData={setFormData}
+                        formTitles={formTitles}
+                        page={page}
+                        formData={formData}
+                        setFormData={setFormData}
             />
-        } else { return <FormSubmission /> }
+        } else { return <FormSubmission
+                            formTitles={formTitles}
+                            page={page} 
+                            /> 
+                }
     }
 
     return (
@@ -360,7 +367,7 @@ function App() {
                     <div className="body">
                         {FormDisplay()} 
                         <div className="container-submit">
-                            { page === FormTitles.length -1 && <button className="btn-submit" onClick={handleSubmit} >Submit</button>} 
+                            { page === formTitles.length -1 && <button className="btn-submit" onClick={handleSubmit} >Submit</button>} 
                         </div>
                     </div>
                 </div>
@@ -369,7 +376,7 @@ function App() {
                 <div className="btn-wrap">
                     <div>{ page !== 0 && <button className="btn btn-prev" onClick={backStep}>Previous step</button>}  </div>
                     <div></div>
-                    <div>{ page < FormTitles.length - 1 && <button className="btn" onClick={handleNextStep} >Next Step</button>}</div>
+                    <div>{ page < formTitles.length - 1 && <button className="btn" onClick={handleNextStep} >Next Step</button>}</div>
                 </div>
             </div>
         </div>
