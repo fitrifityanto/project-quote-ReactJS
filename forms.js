@@ -2,6 +2,10 @@ const FormContact = ({
     formTitles, page, formData, setFormData, errorMsg, errorEmail, errorPhone, nameRef, emailRef, phoneRef, companyRef
 }) => {
     
+    React.useEffect(() => {
+        nameRef.current.focus()
+    },[])
+    
     return (
         <div className="box-inside">
             <h2>{formTitles[page]} </h2>
@@ -82,8 +86,7 @@ const FormContact = ({
     )
 }
 
-function FormServices({formTitles, page, formData, setFormData}) {
-    const [selectedService, setSelectedService] = React.useState('Development')
+function FormServices({formTitles, page, formData, setFormData, selectedService, setSelectedService}) {
 
     const services = [
         {
@@ -123,7 +126,8 @@ function FormServices({formTitles, page, formData, setFormData}) {
                                 checked={selectedService === service.name} 
                                 onChange={(event) => {
                                     setSelectedService(event.target.value)
-                                    setFormData({...formData, service: event.target.value})} }
+                                    setFormData({...formData, service: event.target.value})
+                                } }
                                 />
                             <div className="radio-btn">
                                 <div className="services-icon"><img src={service.img} /></div>
@@ -135,8 +139,7 @@ function FormServices({formTitles, page, formData, setFormData}) {
         </div>
     )}
 
-function ProjectBudget({formTitles, page, formData, setFormData}) {
-    const [selectedBudget, setSelectedBudget] = React.useState('$50.000 +')
+function ProjectBudget({formTitles, page, formData, setFormData, selectedBudget, setSelectedBudget}) {
 
     const budgets = [
         {
@@ -212,6 +215,9 @@ function App() {
         service:'Development',
         budget: '50000'
     })
+
+    const [selectedService, setSelectedService] = React.useState('Development')
+    const [selectedBudget, setSelectedBudget] = React.useState('$50.000 +')
 
     const [errorMsg, setErrorMsg] = React.useState('')
     const [errorEmail, setErrorEmail] = React.useState('')
@@ -303,16 +309,12 @@ function App() {
             email:'',
             phone:'',
             company:'',
-            service:'Development',
+            service:'',
             budget: '50000'
         })
 
         setPage(0)
     }
-
-    React.useEffect(() => {
-        nameRef.current.focus()
-    },[])
 
     const FormDisplay = () => {
         if (page === 0) {
@@ -337,6 +339,8 @@ function App() {
                         page={page} 
                         formData={formData}
                         setFormData={setFormData}
+                        selectedService={selectedService}
+                        setSelectedService={setSelectedService}
             />
         } else if (page === 2) {
             return <ProjectBudget 
@@ -344,6 +348,8 @@ function App() {
                         page={page}
                         formData={formData}
                         setFormData={setFormData}
+                        selectedBudget={selectedBudget}
+                        setSelectedBudget={setSelectedBudget}
             />
         } else { return <FormSubmission
                             formTitles={formTitles}
