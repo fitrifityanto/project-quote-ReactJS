@@ -1,5 +1,5 @@
 const FormContact = ({
-    formTitles, page, formData, setFormData, errorMsg, errorEmail, errorPhone, nameRef, emailRef, phoneRef, companyRef
+    formTitles, page, formData, setFormData, errors, nameRef, emailRef, phoneRef, companyRef
 }) => {
     
     React.useEffect(() => {
@@ -13,7 +13,7 @@ const FormContact = ({
             <div className="box-form">
                 <div className="input-wrap">
                     <label
-                        className={` ${errorMsg === 'Name is required' ? 'warning-text' : ''} `}>Name</label>
+                        className={` ${errors.errorMsg === 'Name is required' ? 'warning-text' : ''} `}>Name</label>
                     <div className='input-wrapper'>
                     <input 
                         type="text"
@@ -23,15 +23,15 @@ const FormContact = ({
                         onChange={(event) => setFormData({...formData, name: event.target.value}) }
                         placeholder="Name" 
                         className="input-field" 
-                        style={errorMsg === 'Name is required' ? {border: '2px solid var(--clr-warning)'} : {} }
+                        style={errors.errorMsg === 'Name is required' ? {border: '2px solid var(--clr-warning)'} : {} }
                         />
                     <span className="icon"> <img src="img/name.svg" /></span>
                     </div>
-                    {errorMsg === 'Name is required' && <div className='warning-text' >{errorMsg}</div> }
+                    {errors.errorMsg === 'Name is required' && <div className='warning-text' >{errors.errorMsg}</div> }
                 </div>
                 <div className="input-wrap">
                     <label 
-                    className={` ${errorMsg === 'Email is required' ? 'warning-text' : errorEmail === 'Email is invalid' ? 'warning-text' : ''} `}
+                    className={` ${errors.errorMsg === 'Email is required' ? 'warning-text' : errors.errorEmail === 'Email is invalid' ? 'warning-text' : ''} `}
                     >Email</label>
                     <div className='input-wrapper'>
                     <input 
@@ -42,14 +42,14 @@ const FormContact = ({
                         onChange={ (event) => setFormData({...formData, email: event.target.value}) }
                         placeholder="Email" 
                         className="input-field"
-                        style={ errorEmail === 'Email is invalid' ? {border: '2px solid #962DFF'} : errorMsg === 'Email is required' ? {border: '2px solid #962DFF'} : {} } />
+                        style={ errors.errorEmail === 'Email is invalid' ? {border: '2px solid #962DFF'} : errors.errorMsg === 'Email is required' ? {border: '2px solid #962DFF'} : {} } />
                     <span className="icon" style={{bottom: '40%'}}> <img src="img/email.svg" /></span>
                     </div>
-                    {errorMsg === 'Email is required' && <div className={`${errorMsg === 'Email is required' ? 'warning-text' : ''}`} >{errorMsg}</div> }
-                    {errorEmail === 'Email is invalid' && <div className={`${errorEmail === 'Email is invalid' ? 'warning-text' : ''}`} >{errorEmail}</div> }
+                    {errors.errorMsg === 'Email is required' && <div className={`${errors.errorMsg === 'Email is required' ? 'warning-text' : ''}`} >{errors.errorMsg}</div> }
+                    {errors.errorEmail === 'Email is invalid' && <div className={`${errors.errorEmail === 'Email is invalid' ? 'warning-text' : ''}`} >{errors.errorEmail}</div> }
                 </div>
                 <div className="input-wrap">
-                    <label className={` ${errorMsg === 'Phone number is required' ? 'warning-text' : errorPhone === 'Phone number is invalid' ? 'warning-text' : ''} `}>Phone Number</label>
+                    <label className={` ${errors.errorMsg === 'Phone number is required' ? 'warning-text' : errors.errorPhone === 'Phone number is invalid' ? 'warning-text' : ''} `}>Phone Number</label>
                     <div className='input-wrapper'>
                     <input 
                         type="text" 
@@ -59,14 +59,14 @@ const FormContact = ({
                         onChange={(event) => setFormData({...formData, phone: event.target.value}) }
                         placeholder="Phone Number" 
                         className="input-field"
-                        style={errorMsg === 'Phone number is required' ? {border: '2px solid var(--clr-warning)'} : {} }/>
+                        style={errors.errorMsg === 'Phone number is required' ? {border: '2px solid var(--clr-warning)'} : {} }/>
                     <span className="icon"> <img src="img/phone-number.svg" /></span>
                     </div>
-                    {errorMsg === 'Phone number is required' && <div className={` ${errorMsg === 'Phone number is required' ? 'warning-text' : ''} `}>{errorMsg}</div> }
-                    {errorPhone === 'Phone number is invalid' && <div className={`${errorPhone === 'Phone number is invalid' ? 'warning-text' : ''}`} >{errorPhone}</div> }
+                    {errors.errorMsg === 'Phone number is required' && <div className={` ${errors.errorMsg === 'Phone number is required' ? 'warning-text' : ''} `}>{errors.errorMsg}</div> }
+                    {errors.errorPhone === 'Phone number is invalid' && <div className={`${errors.errorPhone === 'Phone number is invalid' ? 'warning-text' : ''}`} >{errors.errorPhone}</div> }
                 </div>
                 <div className="input-wrap">
-                    <label className={` ${errorMsg === 'Company is required' ? 'warning-text' : ''} `}>Company</label>
+                    <label className={` ${errors.errorMsg === 'Company is required' ? 'warning-text' : ''} `}>Company</label>
                     <div className='input-wrapper' >
                     <input 
                         type="text"
@@ -76,17 +76,17 @@ const FormContact = ({
                         onChange={(event) => setFormData({...formData, company: event.target.value}) }
                         placeholder="Company" 
                         className="input-field"
-                        style={errorMsg === 'Company is required' ? {border: '2px solid var(--clr-warning)'} : {} }/>
+                        style={errors.errorMsg === 'Company is required' ? {border: '2px solid var(--clr-warning)'} : {} }/>
                     <span className="icon"> <img src="img/company.svg" /></span>
                     </div>
-                    {errorMsg === 'Company is required' && <div className={` ${errorMsg === 'Company is required' ? 'warning-text' : ''} `}>{errorMsg}</div> }
+                    {errors.errorMsg === 'Company is required' && <div className={` ${errors.errorMsg === 'Company is required' ? 'warning-text' : ''} `}>{errors.errorMsg}</div> }
                 </div>
             </div>
         </div>
     )
 }
 
-function FormServices({formTitles, page, formData, setFormData, selectedService, setSelectedService}) {
+function FormServices({formTitles, page, formData, setFormData}) {
 
     const services = [
         {
@@ -123,9 +123,8 @@ function FormServices({formTitles, page, formData, setFormData, selectedService,
                                 type="radio" 
                                 name="service"
                                 value={service.name}
-                                checked={selectedService === service.name} 
+                                checked={formData.service == service.name} 
                                 onChange={(event) => {
-                                    setSelectedService(event.target.value)
                                     setFormData({...formData, service: event.target.value})
                                 } }
                                 />
@@ -139,7 +138,7 @@ function FormServices({formTitles, page, formData, setFormData, selectedService,
         </div>
     )}
 
-function ProjectBudget({formTitles, page, formData, setFormData, selectedBudget, setSelectedBudget}) {
+function ProjectBudget({formTitles, page, formData, setFormData}) {
 
     const budgets = [
         {
@@ -166,17 +165,15 @@ function ProjectBudget({formTitles, page, formData, setFormData, selectedBudget,
             <div className="description">Lorem, ipsum dolor sit amet consectetur adipisicing.  </div> 
             <div className="box-form">
                 {
-                    budgets.map(budget => 
+                    budgets.map(budget =>        
                         <label className="radio-budget" key={budget.id}>
                             <input 
                                 type="radio" 
                                 name="budget"
                                 value={budget.name}
-                                checked={selectedBudget === budget.name} 
+                                checked={formData.budget === budget.name.replace(/[($.+ )]/g, '')}
                                 onChange={(event) => {
-                                    setSelectedBudget(event.target.value)
-                                    const newBudget = event.target.value.replace(/[($.+)]/g, '')
-                                    setFormData({...formData, budget: newBudget})
+                                    setFormData({...formData, budget: event.target.value.replace(/[($.+ )]/g, '')})
                                 }}
                                 />
                             <div className="radio-btn-b">
@@ -216,12 +213,11 @@ function App() {
         budget: '50000'
     })
 
-    const [selectedService, setSelectedService] = React.useState('Development')
-    const [selectedBudget, setSelectedBudget] = React.useState('$50.000 +')
-
-    const [errorMsg, setErrorMsg] = React.useState('')
-    const [errorEmail, setErrorEmail] = React.useState('')
-    const [errorPhone, setErrorPhone] = React.useState('')
+    const [errors, setErrors] = React.useState({
+        errorMsg:'',
+        errorEmail:'',
+        errorPhone:''
+    })
 
     const nameRef = React.useRef()
     const emailRef = React.useRef()
@@ -264,12 +260,16 @@ function App() {
 
         const isNotFilled = fields.some(field => {
             if (field.value.trim() === '') {
-                setErrorMsg(field.message)
+                setErrors({...errors, errorMsg: field.message })
                 field.name === 'name' ? nameRef.current.focus() : field.name === 'email' ? emailRef.current.focus() :
                 field.name === 'phone' ? phoneRef.current.focus() : companyRef.current.focus()
                 return true
             }
-            setErrorMsg('')
+            setErrors({
+                errorMsg:'',
+                errorEmail:'',
+                errorPhone:''
+            })
             return false
         })
         return isNotFilled
@@ -280,15 +280,23 @@ function App() {
         const isInvalid = validateInput()
         if (!isInvalid) {
             if (!validateEmail(formData.email)) {
-                setErrorEmail('Email is invalid')
+                setErrors({
+                    errorMsg:'',
+                    errorEmail:'Email is invalid',
+                    errorPhone: '' })
                 emailRef.current.focus()
             } else if (validateEmail(formData.email) && (!validatePhone(formData.phone))) {
-                setErrorEmail('')
-                setErrorPhone('Phone number is invalid')
+                setErrors({
+                    errorMsg:'',
+                    errorEmail:'',
+                    errorPhone: 'Phone number is invalid' })
                 phoneRef.current.focus()
             } else{ 
-                setErrorEmail('')
-                setErrorPhone('')
+                setErrors({
+                    errorMsg:'',
+                    errorEmail:'',
+                    errorPhone:''
+                })
                 setPage((currentPage) => currentPage + 1)  
             }
         }
@@ -309,10 +317,9 @@ function App() {
             email:'',
             phone:'',
             company:'',
-            service:'',
+            service:'Development',
             budget: '50000'
         })
-
         setPage(0)
     }
 
@@ -324,10 +331,7 @@ function App() {
                 page={page}
                 formData={formData} 
                 setFormData={setFormData}
-                errorMsg={errorMsg}
-                errorEmail={errorEmail}
-                setErrorEmail={setErrorEmail}
-                errorPhone={errorPhone}
+                errors={errors}
                 nameRef={nameRef}
                 emailRef={emailRef}
                 phoneRef={phoneRef}
@@ -338,23 +342,19 @@ function App() {
                         formTitles={formTitles}
                         page={page} 
                         formData={formData}
-                        setFormData={setFormData}
-                        selectedService={selectedService}
-                        setSelectedService={setSelectedService}
-            />
+                        setFormData={setFormData}     
+                    />
         } else if (page === 2) {
             return <ProjectBudget 
                         formTitles={formTitles}
                         page={page}
                         formData={formData}
                         setFormData={setFormData}
-                        selectedBudget={selectedBudget}
-                        setSelectedBudget={setSelectedBudget}
-            />
+                    />
         } else { return <FormSubmission
                             formTitles={formTitles}
                             page={page} 
-                            /> 
+                        /> 
                 }
     }
 
