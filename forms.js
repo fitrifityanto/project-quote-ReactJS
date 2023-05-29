@@ -1,92 +1,83 @@
 const FormContact = ({
-    formTitles, page, formData, setFormData, errors, nameRef, emailRef, phoneRef, companyRef
+    formData, errorsMsg,  nameRef, emailRef, phoneRef, companyRef, handleChange
 }) => {
-    
-    React.useEffect(() => {
-        nameRef.current.focus()
-    },[])
     
     return (
         <div className="box-inside">
-            <h2>{formTitles[page]} </h2>
-            <div className="description">Lorem, ipsum dolor sit amet consectetur adipisicing.  </div>
+            <TitleForm 
+                title='Contact detail'
+                description='Lorem, ipsum dolor sit amet consectetur adipisicing.' />
             <div className="box-form">
                 <div className="input-wrap">
-                    <label
-                        className={` ${errors.errorMsg === 'Name is required' ? 'warning-text' : ''} `}>Name</label>
+                    <label>Name</label>
                     <div className='input-wrapper'>
                     <input 
                         type="text"
                         name="name"
                         value={formData.name}
                         ref={nameRef} 
-                        onChange={(event) => setFormData({...formData, name: event.target.value}) }
+                        onChange={handleChange}
                         placeholder="Name" 
                         className="input-field" 
-                        style={errors.errorMsg === 'Name is required' ? {border: '2px solid var(--clr-warning)'} : {} }
                         />
                     <span className="icon"> <img src="img/name.svg" /></span>
                     </div>
-                    {errors.errorMsg === 'Name is required' && <div className='warning-text' >{errors.errorMsg}</div> }
+                    <div className='warning-text' >{errorsMsg.name}</div>
                 </div>
                 <div className="input-wrap">
-                    <label 
-                    className={` ${errors.errorMsg === 'Email is required' ? 'warning-text' : errors.errorEmail === 'Email is invalid' ? 'warning-text' : ''} `}
-                    >Email</label>
+                    <label >Email</label>
                     <div className='input-wrapper'>
                     <input 
                         type="text" 
                         name="email"
                         value={formData.email}
                         ref={emailRef}
-                        onChange={ (event) => setFormData({...formData, email: event.target.value}) }
+                        onChange={handleChange}
                         placeholder="Email" 
                         className="input-field"
-                        style={ errors.errorEmail === 'Email is invalid' ? {border: '2px solid #962DFF'} : errors.errorMsg === 'Email is required' ? {border: '2px solid #962DFF'} : {} } />
+                        />
                     <span className="icon" style={{bottom: '40%'}}> <img src="img/email.svg" /></span>
                     </div>
-                    {errors.errorMsg === 'Email is required' && <div className={`${errors.errorMsg === 'Email is required' ? 'warning-text' : ''}`} >{errors.errorMsg}</div> }
-                    {errors.errorEmail === 'Email is invalid' && <div className={`${errors.errorEmail === 'Email is invalid' ? 'warning-text' : ''}`} >{errors.errorEmail}</div> }
+                    <div className='warning-text' >{errorsMsg.email}</div> 
                 </div>
                 <div className="input-wrap">
-                    <label className={` ${errors.errorMsg === 'Phone number is required' ? 'warning-text' : errors.errorPhone === 'Phone number is invalid' ? 'warning-text' : ''} `}>Phone Number</label>
+                    <label >Phone Number</label>
                     <div className='input-wrapper'>
                     <input 
                         type="text" 
                         name="phone"
                         value={formData.phone}
                         ref={phoneRef}
-                        onChange={(event) => setFormData({...formData, phone: event.target.value}) }
+                        onChange={handleChange}
                         placeholder="Phone Number" 
                         className="input-field"
-                        style={errors.errorMsg === 'Phone number is required' ? {border: '2px solid var(--clr-warning)'} : {} }/>
+                        />
                     <span className="icon"> <img src="img/phone-number.svg" /></span>
                     </div>
-                    {errors.errorMsg === 'Phone number is required' && <div className={` ${errors.errorMsg === 'Phone number is required' ? 'warning-text' : ''} `}>{errors.errorMsg}</div> }
-                    {errors.errorPhone === 'Phone number is invalid' && <div className={`${errors.errorPhone === 'Phone number is invalid' ? 'warning-text' : ''}`} >{errors.errorPhone}</div> }
+                  <div className='warning-text' >{errorsMsg.phone}</div> 
                 </div>
                 <div className="input-wrap">
-                    <label className={` ${errors.errorMsg === 'Company is required' ? 'warning-text' : ''} `}>Company</label>
+                    <label >Company</label>
                     <div className='input-wrapper' >
                     <input 
                         type="text"
                         name="company"
                         value={formData.company}
                         ref={companyRef} 
-                        onChange={(event) => setFormData({...formData, company: event.target.value}) }
+                        onChange={handleChange}
                         placeholder="Company" 
                         className="input-field"
-                        style={errors.errorMsg === 'Company is required' ? {border: '2px solid var(--clr-warning)'} : {} }/>
+                        />
                     <span className="icon"> <img src="img/company.svg" /></span>
                     </div>
-                    {errors.errorMsg === 'Company is required' && <div className={` ${errors.errorMsg === 'Company is required' ? 'warning-text' : ''} `}>{errors.errorMsg}</div> }
+                    <div className='warning-text' >{errorsMsg.company}</div> 
                 </div>
             </div>
         </div>
     )
 }
 
-function FormServices({formTitles, page, formData, setFormData}) {
+function FormServices({formData, handleChange}) {
 
     const services = [
         {
@@ -113,8 +104,9 @@ function FormServices({formTitles, page, formData, setFormData}) {
 
     return (
         <div>
-            <h2>{formTitles[page]} </h2>
-            <div className="description">Lorem, ipsum dolor sit amet consectetur adipisicing.  </div>
+            <TitleForm 
+                title='Our services'
+                description='Lorem, ipsum dolor sit amet consectetur adipisicing.' />
             <div className="box-form">
                 {
                     services.map(service => 
@@ -124,9 +116,7 @@ function FormServices({formTitles, page, formData, setFormData}) {
                                 name="service"
                                 value={service.name}
                                 checked={formData.service == service.name} 
-                                onChange={(event) => {
-                                    setFormData({...formData, service: event.target.value})
-                                } }
+                                onChange={handleChange}
                                 />
                             <div className="radio-btn">
                                 <div className="services-icon"><img src={service.img} /></div>
@@ -138,7 +128,7 @@ function FormServices({formTitles, page, formData, setFormData}) {
         </div>
     )}
 
-function ProjectBudget({formTitles, page, formData, setFormData}) {
+function ProjectBudget({formData, handleChange, dataConvert}) {
 
     const budgets = [
         {
@@ -161,8 +151,9 @@ function ProjectBudget({formTitles, page, formData, setFormData}) {
 
     return (
         <div>
-            <h2>{formTitles[page]} </h2>
-            <div className="description">Lorem, ipsum dolor sit amet consectetur adipisicing.  </div> 
+            <TitleForm
+                title="What's your Project budget?"
+                description='Lorem, ipsum dolor sit amet consectetur adipisicing.' />
             <div className="box-form">
                 {
                     budgets.map(budget =>        
@@ -171,10 +162,8 @@ function ProjectBudget({formTitles, page, formData, setFormData}) {
                                 type="radio" 
                                 name="budget"
                                 value={budget.name}
-                                checked={formData.budget === budget.name.replace(/[($.+ )]/g, '')}
-                                onChange={(event) => {
-                                    setFormData({...formData, budget: event.target.value.replace(/[($.+ )]/g, '')})
-                                }}
+                                checked={formData.budget === dataConvert(budget.name)}
+                                onChange={handleChange}
                                 />
                             <div className="radio-btn-b">
                                 <div className="text-title">{budget.name} </div>
@@ -187,22 +176,31 @@ function ProjectBudget({formTitles, page, formData, setFormData}) {
     )
 }
 
-function FormSubmission({formTitles, page}) {
+function FormSubmission() {
     return (
         <div className="container-submit text-center">
             <img src="img/logo-submit.svg" />
             <div>
-                <h2>{formTitles[page]}</h2>
-                <div className="description">Please review all the information you previously typed in the past steps, and if all is okay, submit your message to receive a project quote in 24 - 48 hours.</div>
+                <TitleForm 
+                    title='Submit your quote request'
+                    description='Please review all the information you previously typed in the past steps, and if all is okay, submit your message to receive a project quote in 24 - 48 hours.' />
             </div>
         </div>
     )
 }
 
+const TitleForm = (props) => {
+    const {title, description} = props
+    return (
+       <div>
+            <h2>{title}</h2>
+            <div className="description">{description} </div>
+       </div> 
+    )
+}
+
 function App() {
     const [page, setPage] = React.useState(0)
-
-    const formTitles = ["Contact detail", "Our services", "What's your Project budget?", "Submit your quote request"]
 
     const [formData, setFormData] = React.useState ({
         name:'',
@@ -213,98 +211,83 @@ function App() {
         budget: '50000'
     })
 
-    const [errors, setErrors] = React.useState({
-        errorMsg:'',
-        errorEmail:'',
-        errorPhone:''
-    })
+    const [errorsMsg, setErrorsMsg] = React.useState({})
 
     const nameRef = React.useRef()
     const emailRef = React.useRef()
     const phoneRef = React.useRef()
     const companyRef = React.useRef()
 
-    const validateEmail = (email) => {
-        const isValidEmail = /^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$/.test(email)
-        return isValidEmail
-    }
-
-    const validatePhone = (phone) => {
-        const isValidPhone = /^08[1-9][0-9]{7,11}$/.test(phone)
-        return isValidPhone
+    React.useEffect(() => {
+        if (page === 0) {
+            nameRef.current.focus()
         }
+    },[page])
 
     const validateInput = () => {
-        const fields = [
-            {
-                name: 'name',
-                value: formData.name,
-                message: 'Name is required'
-            },
-            {
-                name: 'email',
-                value: formData.email,
-                message: 'Email is required'
-            },
-            {
-                name: 'phone',
-                value: formData.phone,
-                message: 'Phone number is required'
-            },
-            {
-                name: 'company',
-                value: formData.company,
-                message: 'Company is required'
-            }
-        ]
+        let errorsMsg = {}
+        let formValid = true
+        const isValidEmail = /[\w]*@*[a-z]*\.*[\w]{5,}(\.)*(com)*(@gmail\.com)/g
+        const isValidPhone = /^08[1-9][0-9]{7,11}$/
 
-        const isNotFilled = fields.some(field => {
-            if (field.value.trim() === '') {
-                setErrors({...errors, errorMsg: field.message })
-                field.name === 'name' ? nameRef.current.focus() : field.name === 'email' ? emailRef.current.focus() :
-                field.name === 'phone' ? phoneRef.current.focus() : companyRef.current.focus()
-                return true
-            }
-            setErrors({
-                errorMsg:'',
-                errorEmail:'',
-                errorPhone:''
-            })
-            return false
-        })
-        return isNotFilled
+        if (!formData.name) {
+            formValid = false
+            errorsMsg.name = 'Name is required'
+        }
+
+        if (!formData.email) {
+            formValid = false
+            errorsMsg.email = 'Email is required'
+        } else if (!isValidEmail.test(formData.email)) {
+            formValid = false
+            errorsMsg.email = 'Email is invalid'
+            emailRef.current.focus()
+        }
+
+        if (!formData.phone) {
+            formValid = false
+            errorsMsg.phone = 'Phone is required'
+        } else if (!isValidPhone.test(formData.phone)) {
+            formValid = false
+            errorsMsg.phone = 'Phone is invalid'
+            phoneRef.current.focus()
+        } 
+
+        if (!formData.company) {
+            formValid = false
+            errorsMsg.company = 'Company is required'
+        }
+
+        setErrorsMsg({...errorsMsg})
+        // formData.name.trim() === '' ? nameRef.current.focus() : formData.email.trim() === '' ? emailRef.current.focus() : formData.phone.trim() === '' ? phoneRef.current.focus() :
+        // companyRef.current.focus()
+        return formValid
+    }
+
+    const dataConvert = (data) => {
+        const result = data.replace(/[($.+ )]/g, '')
+        return result
     }
 
     const handleNextStep = (event) => {
-        event.preventDefault()
-        const isInvalid = validateInput()
-        if (!isInvalid) {
-            if (!validateEmail(formData.email)) {
-                setErrors({
-                    errorMsg:'',
-                    errorEmail:'Email is invalid',
-                    errorPhone: '' })
-                emailRef.current.focus()
-            } else if (validateEmail(formData.email) && (!validatePhone(formData.phone))) {
-                setErrors({
-                    errorMsg:'',
-                    errorEmail:'',
-                    errorPhone: 'Phone number is invalid' })
-                phoneRef.current.focus()
-            } else{ 
-                setErrors({
-                    errorMsg:'',
-                    errorEmail:'',
-                    errorPhone:''
-                })
-                setPage((currentPage) => currentPage + 1)  
-            }
-        }
+        event.preventDefault()   
+        if (validateInput()) {
+            setPage((currentPage) => currentPage + 1)  
+        } 
     }
 
     const backStep = (e) => {
         e.preventDefault()
         setPage((currentPage) => currentPage - 1)
+    }
+    
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        if (name === 'budget') {
+            setFormData({...formData, [name] : dataConvert(value)})
+        } else {
+            setFormData({...formData, [name] : value})
+        }
     }
 
     const handleSubmit = () => {
@@ -327,33 +310,26 @@ function App() {
         if (page === 0) {
             return ( 
             <FormContact
-                formTitles={formTitles}
-                page={page}
                 formData={formData} 
-                setFormData={setFormData}
-                errors={errors}
+                errorsMsg={errorsMsg}
                 nameRef={nameRef}
                 emailRef={emailRef}
                 phoneRef={phoneRef}
                 companyRef={companyRef}
+                handleChange={handleChange}
             /> )
         } else if (page === 1 ) {
             return <FormServices
-                        formTitles={formTitles}
-                        page={page} 
                         formData={formData}
-                        setFormData={setFormData}     
+                        handleChange={handleChange}   
                     />
         } else if (page === 2) {
             return <ProjectBudget 
-                        formTitles={formTitles}
-                        page={page}
                         formData={formData}
-                        setFormData={setFormData}
+                        handleChange={handleChange}
+                        dataConvert={dataConvert}
                     />
         } else { return <FormSubmission
-                            formTitles={formTitles}
-                            page={page} 
                         /> 
                 }
     }
@@ -373,7 +349,7 @@ function App() {
                     <div className="body">
                         {FormDisplay()} 
                         <div className="container-submit">
-                            { page === formTitles.length -1 && <button className="btn-submit" onClick={handleSubmit} >Submit</button>} 
+                            { page === 3 && <button className="btn-submit" onClick={handleSubmit} >Submit</button>} 
                         </div>
                     </div>
                 </div>
@@ -382,7 +358,7 @@ function App() {
                 <div className="btn-wrap">
                     <div>{ page !== 0 && <button className="btn btn-prev" onClick={backStep}>Previous step</button>}  </div>
                     <div></div>
-                    <div>{ page < formTitles.length - 1 && <button className="btn" onClick={handleNextStep} >Next Step</button>}</div>
+                    <div>{ page < 3 && <button className="btn" onClick={handleNextStep} >Next Step</button>}</div>
                 </div>
             </div>
         </div>
