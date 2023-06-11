@@ -19,6 +19,7 @@ const FormContact = ({
                         onChange={handleChange}
                         placeholder="Name" 
                         className="input-field" 
+                        style={!errorsMsg.name ? {} : {border: '2px solid #962DFF'}}
                         />
                     <span className="icon"> <img src="img/name.svg" /></span>
                     </div>
@@ -35,6 +36,7 @@ const FormContact = ({
                         onChange={handleChange}
                         placeholder="Email" 
                         className="input-field"
+                        style={!errorsMsg.email ? {} : {border: '2px solid #962DFF'}}
                         />
                     <span className="icon" style={{bottom: '40%'}}> <img src="img/email.svg" /></span>
                     </div>
@@ -51,6 +53,7 @@ const FormContact = ({
                         onChange={handleChange}
                         placeholder="Phone Number" 
                         className="input-field"
+                        style={!errorsMsg.phone ? {} : {border: '2px solid #962DFF'}}
                         />
                     <span className="icon"> <img src="img/phone-number.svg" /></span>
                     </div>
@@ -67,6 +70,7 @@ const FormContact = ({
                         onChange={handleChange}
                         placeholder="Company" 
                         className="input-field"
+                        style={!errorsMsg.company ? {} : {border: '2px solid #962DFF'}}
                         />
                     <span className="icon"> <img src="img/company.svg" /></span>
                     </div>
@@ -225,43 +229,30 @@ function App() {
     },[page])
 
     const validateInput = () => {
-        let errorsMsg = {}
-        let formValid = true
+        let newErrorsMsg = {}
         const isValidEmail = /[\w]*@*[a-z]*\.*[\w]{5,}(\.)*(com)*(@gmail\.com)/g
         const isValidPhone = /^08[1-9][0-9]{7,11}$/
-
+  
         if (!formData.name) {
-            formValid = false
-            errorsMsg.name = 'Name is required'
+            newErrorsMsg.name = 'Name is required'
         }
-
+  
         if (!formData.email) {
-            formValid = false
-            errorsMsg.email = 'Email is required'
+            newErrorsMsg.email = 'Email is required'
         } else if (!isValidEmail.test(formData.email)) {
-            formValid = false
-            errorsMsg.email = 'Email is invalid'
-            emailRef.current.focus()
+            newErrorsMsg.email = 'Email is invalid'
         }
-
+  
         if (!formData.phone) {
-            formValid = false
-            errorsMsg.phone = 'Phone is required'
+            newErrorsMsg.phone = 'Phone is required'
         } else if (!isValidPhone.test(formData.phone)) {
-            formValid = false
-            errorsMsg.phone = 'Phone is invalid'
-            phoneRef.current.focus()
+            newErrorsMsg.phone = 'Phone is invalid'
         } 
-
+  
         if (!formData.company) {
-            formValid = false
-            errorsMsg.company = 'Company is required'
+            newErrorsMsg.company = 'Company is required'
         }
-
-        setErrorsMsg({...errorsMsg})
-        // formData.name.trim() === '' ? nameRef.current.focus() : formData.email.trim() === '' ? emailRef.current.focus() : formData.phone.trim() === '' ? phoneRef.current.focus() :
-        // companyRef.current.focus()
-        return formValid
+        return newErrorsMsg
     }
 
     const dataConvert = (data) => {
@@ -269,11 +260,25 @@ function App() {
         return result
     }
 
-    const handleNextStep = (event) => {
-        event.preventDefault()   
-        if (validateInput()) {
-            setPage((currentPage) => currentPage + 1)  
+    const nextStep = (e) => {
+        e.preventDefault()   
+        const newErrorsMsg = validateInput(formData) 
+        if (newErrorsMsg.name) {
+            setErrorsMsg(newErrorsMsg)
+            nameRef.current.focus()
+        } else if (newErrorsMsg.email) {
+            setErrorsMsg(newErrorsMsg)
+            emailRef.current.focus()
+        } else if (newErrorsMsg.phone) {
+            setErrorsMsg(newErrorsMsg)
+            phoneRef.current.focus()
+        } else if (newErrorsMsg.company) {
+            setErrorsMsg(newErrorsMsg)
+            companyRef.current.focus()
         } 
+        else {
+            setPage((currentPage) => currentPage + 1)  
+        }
     }
 
     const backStep = (e) => {
@@ -304,6 +309,7 @@ function App() {
             budget: '50000'
         })
         setPage(0)
+        setErrorsMsg({})
     }
 
     const FormDisplay = () => {
@@ -358,7 +364,7 @@ function App() {
                 <div className="btn-wrap">
                     <div>{ page !== 0 && <button className="btn btn-prev" onClick={backStep}>Previous step</button>}  </div>
                     <div></div>
-                    <div>{ page < 3 && <button className="btn" onClick={handleNextStep} >Next Step</button>}</div>
+                    <div>{ page < 3 && <button className="btn" onClick={nextStep} >Next Step</button>}</div>
                 </div>
             </div>
         </div>
